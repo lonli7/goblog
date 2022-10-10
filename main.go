@@ -1,15 +1,54 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
-	"github.com/gorilla/mux"
 	"html/template"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
+
+	"github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 )
 
 var router = mux.NewRouter()
+var db *sql.DB
+
+func initDB() {
+	var err error
+	config := mysql.Config{
+		User:                    "root",
+		Passwd:                  "root",
+		Addr:                    "127.0.0.1:3306",
+		Net:                     "tcp",
+		DBName:                  "goblog",
+		AllowCleartextPasswords: true,
+		AllowNativePasswords: true,
+	}
+
+	// 准备数据库连接池
+	db, err = sql.Open("mysql", config.FormatDSN())
+	checkError(err)
+
+	// 设置最大链接数
+	db.SetMaxOpenConns(25)
+	// 设置最大空闲链接数
+	db.SetMaxIdleConns(25)
+	// 设置每个链接过期时间
+	db.SetConnMaxLifetime(5 * time.Minute)
+
+	err = db.Ping()
+	checkError(err)
+}
+
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/" {
@@ -134,6 +173,7 @@ func removeTrailingSlash(next http.Handler) http.Handler {
 }
 
 func main() {
+	initDB()
 
 	router.HandleFunc("/", homeHandler).Methods("GET").Name("home")
 	router.HandleFunc("/about", aboutHandler).Methods("GET").Name("about")
