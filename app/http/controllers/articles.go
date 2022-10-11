@@ -16,7 +16,7 @@ type ArticlesController struct {
 
 }
 
-func (*ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
+func (a *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
@@ -41,6 +41,22 @@ func (*ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 				"Name2URL": route.Name2URL,
 				"Uint64ToString": types.Uint64ToString,
 			}).ParseFiles("resources/views/articles/show.gohtml")
+		logger.LogError(err)
+
+		err = tmpl.Execute(w, articles)
+		logger.LogError(err)
+	}
+}
+
+func (a *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
+	articles, err := article.GetAll()
+
+	if err != nil {
+		logger.LogError(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprint(w, "500 服务器内部错误")
+	} else {
+		tmpl, err := template.ParseFiles("resources/views/articles/index.gohtml")
 		logger.LogError(err)
 
 		err = tmpl.Execute(w, articles)
