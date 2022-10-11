@@ -1,12 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>{{ .Title }} —— 我的技术博客</title>
-    <style type="text/css">.error {color: red;}</style>
+    <style type="text/css">
+        .error {
+            color: red;
+        }
+    </style>
 </head>
+
 <body>
 <p>ID： {{ .ID }}</p>
 <p>标题： {{ .Title }}</p>
 <p>内容：{{ .Body }}</p>
+
+{{ $idString := Int64ToString .ID  }}
+{{/* 构建删除按钮  */}}
+<form action="{{ RouteName2URL "articles.delete" "id" $idString }}" method="post">
+    <button type="submit" onclick="return confirm('删除动作不可逆，请确定是否继续')">删除</button>
+</form>
+
+{{/* 构建编辑按钮  */}}
+<form action="{{ RouteName2URL "articles.edit" "id" $idString }}" method="get">
+    <button type="submit">编辑</button>
+</form>
+
 </body>
+
 </html>
