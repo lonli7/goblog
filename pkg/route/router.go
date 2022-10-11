@@ -3,6 +3,7 @@ package route
 import (
 	"github.com/gorilla/mux"
 	"github.com/lonli7/goblog/pkg/logger"
+	"github.com/lonli7/goblog/routes"
 	"net/http"
 )
 
@@ -12,6 +13,7 @@ var Router *mux.Router
 // 初始化路由
 func Initialize() {
 	Router = mux.NewRouter()
+	routes.RegisterWebRoutes(Router)
 }
 
 // 通过路由名称来获取URL
