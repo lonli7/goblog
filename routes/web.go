@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gorilla/mux"
 	"github.com/lonli7/goblog/app/http/controllers"
+	"github.com/lonli7/goblog/app/http/middlewares"
 	"net/http"
 )
 
@@ -24,4 +25,6 @@ func RegisterWebRoutes(r *mux.Router) {
 	r.HandleFunc("/articles/{id:[0-9]+}/edit", ac.Edit).Methods("GET").Name("articles.edit")
 	r.HandleFunc("/articles/{id:[0-9]+}", ac.Update).Methods("POST").Name("articles.update")
 	r.HandleFunc("/articles/{id:[0-9]+}/delete", ac.Delete).Methods("POST").Name("articles.delete")
+
+	r.Use(middlewares.ForceHTML)
 }
