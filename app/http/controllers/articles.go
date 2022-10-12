@@ -10,10 +10,17 @@ import (
 	"gorm.io/gorm"
 	"html/template"
 	"net/http"
+	"strconv"
+	"unicode/utf8"
 )
 
-type ArticlesController struct {
+type ArticlesFormData struct {
+	Title, Body string
+	URL         string
+	Errors      map[string]string
+}
 
+type ArticlesController struct {
 }
 
 func (a *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +45,7 @@ func (a *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 		// 读取成功，显示文章
 		tmpl, err := template.New("show.gohtml").
 			Funcs(template.FuncMap{
-				"Name2URL": route.Name2URL,
+				"Name2URL":       route.Name2URL,
 				"Uint64ToString": types.Uint64ToString,
 			}).ParseFiles("resources/views/articles/show.gohtml")
 		logger.LogError(err)
@@ -60,6 +67,83 @@ func (a *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 		logger.LogError(err)
 
 		err = tmpl.Execute(w, articles)
+		logger.LogError(err)
+	}
+}
+
+func validateArticleFormData(title string, body string) map[string]string {
+	errors := make(map[string]string)
+
+	// 验证标题
+	if title == "" {
+		errors["title"] = "标题不能为空"
+	} else if utf8.RuneCountInString(title) < 3 || utf8.RuneCountInString(title) > 40 {
+		errors["title"] = "标题长度需介于 3-40"
+	}
+
+	// 验证内容
+	if body == "" {
+		errors["body"] = "内容不能为空"
+	} else if utf8.RuneCountInString(body) < 10 {
+		errors["body"] = "内容长度需大于或等于 10 个字节"
+	}
+	return errors
+}
+
+func (a *ArticlesController) Create(w http.ResponseWriter, r *http.Request) {
+	storeURL := route.Name2URL("articles.store")
+	data := ArticlesFormData{
+		Title:  "",
+		Body:   "",
+		URL:    storeURL,
+		Errors: nil,
+	}
+	tmpl, err := template.ParseFiles("resources/views/articles/create.gohtml")
+	if err != nil {
+		panic(err)
+	}
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func (a *ArticlesController) Store(w http.ResponseWriter, r *http.Request) {
+	title := r.PostFormValue("title")
+	body := r.PostFormValue("body")
+
+	errors := validateArticleFormData(title, body)
+
+	if len(errors) == 0 {
+		_article := article.Article{
+			Title: title,
+			Body: body,
+		}
+		err := _article.Create()
+		if err != nil {
+			logger.LogError(err)
+		}
+
+		if _article.ID > 0 {
+			fmt.Fprint(w, "插入成功, ID为" + strconv.FormatUint(_article.ID, 10))
+		} else {
+			logger.LogError(err)
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Fprint(w, "创建文章失败，请联系管理员")
+		}
+	} else {
+		storeURL := route.Name2URL("articles.store")
+		data := ArticlesFormData{
+			Title: title,
+			Body: body,
+			URL: storeURL,
+			Errors: errors,
+		}
+		tmpl, err := template.ParseFiles("resources/views/articles/create.gohtml")
+		logger.LogError(err)
+
+		err = tmpl.Execute(w, data)
 		logger.LogError(err)
 	}
 }
