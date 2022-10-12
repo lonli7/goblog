@@ -6,9 +6,7 @@ import (
 	"github.com/lonli7/goblog/bootstrap"
 	"github.com/lonli7/goblog/pkg/database"
 	"github.com/lonli7/goblog/pkg/logger"
-	"html/template"
 	"net/http"
-	"net/url"
 	"strconv"
 	"strings"
 
@@ -23,103 +21,11 @@ type Article struct {
 	ID          int64
 }
 
-type ArticlesFormData struct {
-	Title, Body string
-	URL         *url.URL
-	Errors      map[string]string
-}
-
 func getArticleByID(id string) (Article, error) {
 	articles := Article{}
 	query := "SELECT * FROM articles WHERE id = ?"
 	err := db.QueryRow(query, id).Scan(&articles.ID, &articles.Title, &articles.Body)
 	return articles, err
-}
-
-func articlesEditHandler(w http.ResponseWriter, r *http.Request) {
-	id := getRouterVariable("id", r)
-
-	articles, err := getArticleByID(id)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			w.WriteHeader(http.StatusNotFound)
-			fmt.Fprint(w, "404 文章未找到")
-		} else {
-			logger.LogError(err)
-			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprint(w, "500 服务器错误")
-		}
-	} else {
-		updateURL, _ := router.Get("articles.update").URL("id", id)
-		data := ArticlesFormData{
-			Title:  articles.Title,
-			Body:   articles.Body,
-			URL:    updateURL,
-			Errors: nil,
-		}
-		tmpl, err := template.ParseFiles("resources/views/articles/edit.gohtml")
-		logger.LogError(err)
-
-		err = tmpl.Execute(w, data)
-		logger.LogError(err)
-	}
-}
-
-func articlesUpdateHandler(w http.ResponseWriter, r *http.Request) {
-	id := getRouterVariable("id", r)
-
-	_, err := getArticleByID(id)
-
-	if err != nil {
-		if err == sql.ErrNoRows {
-			w.WriteHeader(http.StatusNotFound)
-			fmt.Fprint(w, "404 文章未找到")
-		} else {
-			logger.LogError(err)
-			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprint(w, "500 服务器错误")
-		}
-	} else {
-		// 未出现错误，表单验证
-		title := r.PostFormValue("title")
-		body := r.PostFormValue("body")
-
-		errors := make(map[string]string)
-
-		if len(errors) == 0 {
-			// 更新数据
-			query := "UPDATE articles SET title = ?, body = ? WHERE id = ?;"
-			rs, err := db.Exec(query, title, body, id)
-
-			if err != nil {
-				logger.LogError(err)
-				w.WriteHeader(http.StatusInternalServerError)
-				fmt.Fprint(w, "500 服务器内部错误")
-			}
-
-			if n, _ := rs.RowsAffected(); n > 0 {
-				showURL, _ := router.Get("articles.show").URL("id", id)
-				http.Redirect(w, r, showURL.String(), http.StatusFound)
-			} else {
-				fmt.Fprint(w, "您没有做任何修改!")
-			}
-		} else {
-			// 表单验证不通过，显示理由
-			updateURL, _ := router.Get("articles.update").URL("id", id)
-			data := ArticlesFormData{
-				Title:  title,
-				Body:   body,
-				URL:    updateURL,
-				Errors: errors,
-			}
-			tmpl, err := template.ParseFiles("resources/views/articles/edit.gohtml")
-			logger.LogError(err)
-
-			err = tmpl.Execute(w, data)
-			logger.LogError(err)
-		}
-	}
 }
 
 func articlesDeleteHandler(w http.ResponseWriter, r *http.Request) {
@@ -199,10 +105,6 @@ func main() {
 
 	bootstrap.SetupDB()
 	router = bootstrap.SetupRoute()
-
-	router.HandleFunc("/articles/{id:[0-9]+}/edit", articlesEditHandler).Methods("GET").Name("articles.edit")
-	router.HandleFunc("/articles/{id:[0-9]+}", articlesUpdateHandler).Methods("POST").Name("articles.update")
-	router.HandleFunc("/articles/{id:[0-9]+}/delete", articlesDeleteHandler).Methods("POST").Name("articles.delete")
 
 	// 使用中间件，设置请求头
 	router.Use(forceHTMLMiddleware)
