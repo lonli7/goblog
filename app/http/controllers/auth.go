@@ -26,7 +26,7 @@ func (*AuthController) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 // DoRegister 处理注册逻辑
-func (*AuthController) DoRegister(w http.ResponseWriter, r *http.Request) {
+func (a *AuthController) DoRegister(w http.ResponseWriter, r *http.Request) {
 	// 获取表单数据
 	_user := user.User{
 		Name:            r.PostFormValue("name"),
@@ -53,4 +53,12 @@ func (*AuthController) DoRegister(w http.ResponseWriter, r *http.Request) {
 		}
 		// 验证不通过 - 重新显示表单
 	}
+}
+
+func (a *AuthController) Login(w http.ResponseWriter, r *http.Request) {
+	view.RenderSimple(w, view.D{}, "auth.login")
+}
+
+func (a *AuthController) DoLogin(w http.ResponseWriter, r *http.Request) {
+	//
 }
