@@ -10,22 +10,24 @@ import (
 )
 
 // Render 渲染视图
-func Render(w io.Writer, name string, data interface{}) {
+func Render(w io.Writer, data interface{}, tplFiles ...string) {
 	// 设置模板相对路径
 	viewDir := "resources/views/"
 
-	// 将 articles.show 更正为 articles/show
-	name = strings.Replace(name, ".", "/", -1)
+	for i, f := range tplFiles {
+		tplFiles[i] = viewDir + strings.Replace(f, ".", "/", -1) + ".gohtml"
+	}
 
-	files, err := filepath.Glob(viewDir + "layouts/*.gohtml")
+	// 将 articles.show 更正为 articles/show
+	layoutFiles, err := filepath.Glob(viewDir + "layouts/*.gohtml")
 	logger.LogError(err)
 
-	newFiles := append(files, viewDir+name+".gohtml")
+	allFiles := append(layoutFiles, tplFiles...)
 
-	tmpl, err := template.New(name + ".gohtml").
+	tmpl, err := template.New("").
 		Funcs(template.FuncMap{
 			"RouteName2URL": route.Name2URL,
-		}).ParseFiles(newFiles...)
+		}).ParseFiles(allFiles...)
 	logger.LogError(err)
 
 	//渲染模板
