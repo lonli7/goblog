@@ -78,7 +78,7 @@ func validateArticleFormData(title string, body string) map[string]string {
 }
 
 func (a *ArticlesController) Create(w http.ResponseWriter, r *http.Request) {
-	view.Render(w, ArticlesFormData{}, "articles.create", "articles._form_field")
+	view.Render(w, view.D{}, "articles.create", "articles._form_field")
 }
 
 func (a *ArticlesController) Store(w http.ResponseWriter, r *http.Request) {
