@@ -6,11 +6,10 @@ import (
 	"github.com/lonli7/goblog/app/models/article"
 	"github.com/lonli7/goblog/pkg/logger"
 	"github.com/lonli7/goblog/pkg/route"
-	"github.com/lonli7/goblog/pkg/types"
+	"github.com/lonli7/goblog/pkg/view"
 	"gorm.io/gorm"
 	"html/template"
 	"net/http"
-	"path/filepath"
 	"strconv"
 	"unicode/utf8"
 )
@@ -44,15 +43,7 @@ func (a *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		// 读取成功，显示文章
-		tmpl, err := template.New("show.gohtml").
-			Funcs(template.FuncMap{
-				"Name2URL":       route.Name2URL,
-				"Uint64ToString": types.Uint64ToString,
-			}).ParseFiles("resources/views/articles/show.gohtml")
-		logger.LogError(err)
-
-		err = tmpl.Execute(w, articles)
-		logger.LogError(err)
+		view.Render(w, "articles.show", articles)
 	}
 }
 
@@ -64,24 +55,7 @@ func (a *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprint(w, "500 服务器内部错误")
 	} else {
-		//  加载模板
-
-		viewDir := "resources/views"
-
-		// 所有布局模板文件 Slice
-		files, err := filepath.Glob(viewDir + "/layouts/*.gohtml")
-		logger.LogError(err)
-
-		// 在 Slice 里新增目标文件
-		newFiles := append(files, viewDir+"/articles/index.gohtml")
-
-		// 解析模板文件
-		tmpl, err := template.ParseFiles(newFiles...)
-		logger.LogError(err)
-
-		// 渲染模板
-		err = tmpl.ExecuteTemplate(w, "app", articles)
-		logger.LogError(err)
+		view.Render(w, "articles.index", articles)
 	}
 }
 
