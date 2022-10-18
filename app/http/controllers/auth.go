@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"github.com/lonli7/goblog/app/requests"
+	"github.com/lonli7/goblog/pkg/auth"
 	"net/http"
 
 	"github.com/lonli7/goblog/app/models/user"
@@ -40,13 +41,13 @@ func (a *AuthController) DoRegister(w http.ResponseWriter, r *http.Request) {
 	if len(errs) > 0 {
 		view.RenderSimple(w, view.D{
 			"Errors": errs,
-			"User": _user,
+			"User":   _user,
 		}, "auth.register")
 	} else {
 		_user.Create()
 
 		if _user.ID > 0 {
-			http.Redirect(w, r,"/", http.StatusFound)
+			http.Redirect(w, r, "/", http.StatusFound)
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
 			fmt.Fprint(w, "创建用户失败，请联系管理员")
@@ -61,4 +62,16 @@ func (a *AuthController) Login(w http.ResponseWriter, r *http.Request) {
 
 func (a *AuthController) DoLogin(w http.ResponseWriter, r *http.Request) {
 	//
+	email := r.PostFormValue("email")
+	password := r.PostFormValue("password")
+
+	if err := auth.Attempt(email, password); err == nil {
+		http.Redirect(w, r, "/", http.StatusFound)
+	} else {
+		view.RenderSimple(w, view.D{
+			"Error":    err.Error(),
+			"Email":    email,
+			"Password": password,
+		}, "auth.login")
+	}
 }
