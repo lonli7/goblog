@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/lonli7/goblog/app/requests"
 	"github.com/lonli7/goblog/pkg/auth"
+	"github.com/lonli7/goblog/pkg/flash"
 	"net/http"
 
 	"github.com/lonli7/goblog/app/models/user"
@@ -47,6 +48,7 @@ func (a *AuthController) DoRegister(w http.ResponseWriter, r *http.Request) {
 		_user.Create()
 
 		if _user.ID > 0 {
+			flash.Success("恭喜您注册成功!")
 			auth.Login(_user)
 			http.Redirect(w, r, "/", http.StatusFound)
 		} else {
@@ -67,6 +69,7 @@ func (a *AuthController) DoLogin(w http.ResponseWriter, r *http.Request) {
 	password := r.PostFormValue("password")
 
 	if err := auth.Attempt(email, password); err == nil {
+		flash.Success("欢迎回来!")
 		http.Redirect(w, r, "/", http.StatusFound)
 	} else {
 		view.RenderSimple(w, view.D{
@@ -79,5 +82,6 @@ func (a *AuthController) DoLogin(w http.ResponseWriter, r *http.Request) {
 
 func (a *AuthController) Logout(w http.ResponseWriter, r *http.Request) {
 	auth.Logout()
+	flash.Success("您已退出登录")
 	http.Redirect(w, r, "/", http.StatusFound)
 }
