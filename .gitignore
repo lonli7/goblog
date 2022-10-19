@@ -1,3 +1,5 @@
 .env
 .idea
+go.mod
+go.sum
 vendor
