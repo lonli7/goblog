@@ -1,6 +1,7 @@
 package view
 
 import (
+	"github.com/lonli7/goblog/app/models/user"
 	"github.com/lonli7/goblog/pkg/auth"
 	"github.com/lonli7/goblog/pkg/flash"
 	"github.com/lonli7/goblog/pkg/logger"
@@ -28,6 +29,7 @@ func RenderTemplate(w io.Writer, name string, data D, tplFiles ...string) {
 	data["isLogined"] = auth.Check()
 	data["loginUser"] = auth.User
 	data["flash"] = flash.All()
+	data["Users"], _ = user.All()
 
 	allFiles := getTemplateFiles(tplFiles...)
 

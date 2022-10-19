@@ -5,6 +5,7 @@ import (
 	"github.com/lonli7/goblog/app/models/article"
 	"github.com/lonli7/goblog/app/policies"
 	"github.com/lonli7/goblog/app/requests"
+	"github.com/lonli7/goblog/pkg/auth"
 	"github.com/lonli7/goblog/pkg/flash"
 	"github.com/lonli7/goblog/pkg/logger"
 	"github.com/lonli7/goblog/pkg/route"
@@ -51,9 +52,11 @@ func (a *ArticlesController) Create(w http.ResponseWriter, _ *http.Request) {
 }
 
 func (a *ArticlesController) Store(w http.ResponseWriter, r *http.Request) {
+	currentUser := auth.User()
 	_article := article.Article{
 		Title: r.PostFormValue("title"),
 		Body: r.PostFormValue("body"),
+		UserID: currentUser.ID,
 	}
 
 	errors := requests.ValidateArticleForm(_article)
