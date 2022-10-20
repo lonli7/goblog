@@ -2,7 +2,7 @@ package session
 
 import (
 	"github.com/gorilla/sessions"
-	"github.com/lonli7/goblog/pkg/logger"
+	"goblog/pkg/logger"
 	"net/http"
 )
 

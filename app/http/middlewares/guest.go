@@ -1,8 +1,8 @@
 package middlewares
 
 import (
-	"github.com/lonli7/goblog/pkg/auth"
-	"github.com/lonli7/goblog/pkg/flash"
+	"goblog/pkg/auth"
+	"goblog/pkg/flash"
 	"net/http"
 )
 

@@ -2,8 +2,8 @@ package auth
 
 import (
 	"errors"
-	"github.com/lonli7/goblog/app/models/user"
-	"github.com/lonli7/goblog/pkg/session"
+	"goblog/app/models/user"
+	"goblog/pkg/session"
 	"gorm.io/gorm"
 )
 

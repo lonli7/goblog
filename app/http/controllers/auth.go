@@ -2,14 +2,14 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/lonli7/goblog/app/requests"
-	"github.com/lonli7/goblog/pkg/auth"
-	"github.com/lonli7/goblog/pkg/flash"
+	"goblog/app/requests"
+	"goblog/pkg/auth"
+	"goblog/pkg/flash"
 	"net/http"
 
-	"github.com/lonli7/goblog/app/models/user"
+	"goblog/app/models/user"
 
-	"github.com/lonli7/goblog/pkg/view"
+	"goblog/pkg/view"
 )
 
 type AuthController struct {

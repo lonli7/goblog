@@ -1,8 +1,8 @@
 package requests
 
 import (
-	"github.com/lonli7/goblog/app/models/article"
 	"github.com/thedevsaddam/govalidator"
+	"goblog/app/models/article"
 )
 
 func ValidateArticleForm(data article.Article) map[string][]string {

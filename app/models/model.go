@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/lonli7/goblog/pkg/types"
+	"goblog/pkg/types"
 	"time"
 )
 

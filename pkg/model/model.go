@@ -2,8 +2,8 @@ package model
 
 import (
 	"fmt"
-	"github.com/lonli7/goblog/pkg/config"
-	"github.com/lonli7/goblog/pkg/logger"
+	"goblog/pkg/config"
+	"goblog/pkg/logger"
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
 

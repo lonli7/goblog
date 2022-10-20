@@ -1,6 +1,6 @@
 package config
 
-import "github.com/lonli7/goblog/pkg/config"
+import "goblog/pkg/config"
 
 func init() {
 	config.Add("session", config.StrMap{

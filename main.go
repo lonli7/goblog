@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/lonli7/goblog/app/http/middlewares"
-	"github.com/lonli7/goblog/bootstrap"
-	"github.com/lonli7/goblog/config"
-	c "github.com/lonli7/goblog/pkg/config"
-	"github.com/lonli7/goblog/pkg/logger"
+	"goblog/app/http/middlewares"
+	"goblog/bootstrap"
+	"goblog/config"
+	c "goblog/pkg/config"
+	"goblog/pkg/logger"
 	"net/http"
 )
 

@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/lonli7/goblog/pkg/password"
+	"goblog/pkg/password"
 	"gorm.io/gorm"
 )
 

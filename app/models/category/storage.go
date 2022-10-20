@@ -1,12 +1,12 @@
 package category
 
 import (
-	"github.com/lonli7/goblog/pkg/logger"
-	"github.com/lonli7/goblog/pkg/model"
-	"github.com/lonli7/goblog/pkg/types"
+	"goblog/pkg/logger"
+	"goblog/pkg/model"
+	"goblog/pkg/types"
 )
 
-func (c *Category) Create() (err error){
+func (c *Category) Create() (err error) {
 	if err = model.DB.Create(&c).Error; err != nil {
 		logger.LogError(err)
 		return err

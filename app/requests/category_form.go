@@ -1,8 +1,8 @@
 package requests
 
 import (
-	"github.com/lonli7/goblog/app/models/category"
 	"github.com/thedevsaddam/govalidator"
+	"goblog/app/models/category"
 )
 
 func ValidateCategoryForm(data category.Category) map[string][]string {

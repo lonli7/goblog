@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"github.com/lonli7/goblog/app/models/article"
-	"github.com/lonli7/goblog/app/models/user"
-	"github.com/lonli7/goblog/pkg/route"
-	"github.com/lonli7/goblog/pkg/view"
+	"goblog/app/models/article"
+	"goblog/app/models/user"
+	"goblog/pkg/route"
+	"goblog/pkg/view"
 	"net/http"
 )
 

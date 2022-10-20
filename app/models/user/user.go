@@ -1,17 +1,17 @@
 package user
 
 import (
-	"github.com/lonli7/goblog/app/models"
-	"github.com/lonli7/goblog/pkg/password"
-	"github.com/lonli7/goblog/pkg/route"
+	"goblog/app/models"
+	"goblog/pkg/password"
+	"goblog/pkg/route"
 )
 
 type User struct {
 	models.BaseModel
 
-	Name     string `gorm:"column:name;type:varchar(255);not null;unique" valid:"name"`
-	Email    string `gorm:"column:email;type:varchar(255);default:NULL;unique" valid:"email"`
-	Password string `gorm:"column:password;type:varchar(255)not null" valid:"password"`
+	Name            string `gorm:"column:name;type:varchar(255);not null;unique" valid:"name"`
+	Email           string `gorm:"column:email;type:varchar(255);default:NULL;unique" valid:"email"`
+	Password        string `gorm:"column:password;type:varchar(255)not null" valid:"password"`
 	PasswordConfirm string `gorm:"-" valid:"password_confirm"`
 }
 

@@ -1,9 +1,9 @@
 package config
 
 import (
-	"github.com/lonli7/goblog/pkg/logger"
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
+	"goblog/pkg/logger"
 )
 
 // Viper viper 实例
@@ -48,7 +48,6 @@ func Get(path string, defaultValue ...interface{}) interface{} {
 	}
 	return Viper.Get(path)
 }
-
 
 // GetString 获取 String 类型的配置信息
 func GetString(path string, defaultValue ...interface{}) string {

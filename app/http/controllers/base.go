@@ -2,15 +2,14 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/lonli7/goblog/pkg/flash"
-	"github.com/lonli7/goblog/pkg/logger"
+	"goblog/pkg/flash"
+	"goblog/pkg/logger"
 	"gorm.io/gorm"
 	"net/http"
 )
 
 // BaseController 基础控制器
 type BaseController struct {
-
 }
 
 // ResponseForSQLError 处理SQL错误并返回

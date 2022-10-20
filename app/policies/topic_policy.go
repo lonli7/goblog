@@ -1,8 +1,8 @@
 package policies
 
 import (
-	"github.com/lonli7/goblog/app/models/article"
-	"github.com/lonli7/goblog/pkg/auth"
+	"goblog/app/models/article"
+	"goblog/pkg/auth"
 )
 
 func CanModifyArticle(_article article.Article) bool {

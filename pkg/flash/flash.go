@@ -2,7 +2,7 @@ package flash
 
 import (
 	"encoding/gob"
-	"github.com/lonli7/goblog/pkg/session"
+	"goblog/pkg/session"
 )
 
 type Flashes map[string]interface{}

@@ -1,22 +1,22 @@
 package article
 
 import (
-	"github.com/lonli7/goblog/app/models"
-	"github.com/lonli7/goblog/app/models/category"
-	"github.com/lonli7/goblog/app/models/user"
-	"github.com/lonli7/goblog/pkg/route"
+	"goblog/app/models"
+	"goblog/app/models/category"
+	"goblog/app/models/user"
+	"goblog/pkg/route"
 	"strconv"
 )
 
 type Article struct {
 	models.BaseModel
 
-	Title  string `gorm:"column:title;type:varchar(255);not null" valid:"title"`
-	Body   string `gorm:"column:body;type:varchar(255);not null" valid:"body"`
-	UserID uint64 `gorm:"not null:index"`
-	User   user.User
+	Title      string `gorm:"column:title;type:varchar(255);not null" valid:"title"`
+	Body       string `gorm:"column:body;type:varchar(255);not null" valid:"body"`
+	UserID     uint64 `gorm:"not null:index"`
+	User       user.User
 	CategoryId uint64 `gorm:"not null:index"`
-	Category category.Category
+	Category   category.Category
 }
 
 func (a Article) Link() string {

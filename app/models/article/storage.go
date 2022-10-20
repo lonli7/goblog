@@ -1,11 +1,11 @@
 package article
 
 import (
-	"github.com/lonli7/goblog/pkg/logger"
-	"github.com/lonli7/goblog/pkg/model"
-	"github.com/lonli7/goblog/pkg/pagination"
-	"github.com/lonli7/goblog/pkg/route"
-	"github.com/lonli7/goblog/pkg/types"
+	"goblog/pkg/logger"
+	"goblog/pkg/model"
+	"goblog/pkg/pagination"
+	"goblog/pkg/route"
+	"goblog/pkg/types"
 	"net/http"
 )
 
@@ -18,7 +18,7 @@ func Get(idstr string) (Article, error) {
 	return article, nil
 }
 
-func GetAll(r *http.Request, perPage int) ([]Article, pagination.ViewData, error)  {
+func GetAll(r *http.Request, perPage int) ([]Article, pagination.ViewData, error) {
 	db := model.DB.Model(Article{}).Order("created_at desc")
 	_pager := pagination.New(r, db, route.Name2URL("articles.index"), perPage)
 

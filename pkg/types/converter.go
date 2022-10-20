@@ -1,7 +1,7 @@
 package types
 
 import (
-	"github.com/lonli7/goblog/pkg/logger"
+	"goblog/pkg/logger"
 	"strconv"
 )
 

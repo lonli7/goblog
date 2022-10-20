@@ -1,8 +1,8 @@
 package category
 
 import (
-	"github.com/lonli7/goblog/app/models"
-	"github.com/lonli7/goblog/pkg/route"
+	"goblog/app/models"
+	"goblog/pkg/route"
 )
 
 type Category struct {

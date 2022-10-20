@@ -1,12 +1,12 @@
 package controllers
 
 import (
-	"github.com/lonli7/goblog/app/models/article"
-	"github.com/lonli7/goblog/app/models/category"
-	"github.com/lonli7/goblog/app/requests"
-	"github.com/lonli7/goblog/pkg/flash"
-	"github.com/lonli7/goblog/pkg/route"
-	"github.com/lonli7/goblog/pkg/view"
+	"goblog/app/models/article"
+	"goblog/app/models/category"
+	"goblog/app/requests"
+	"goblog/pkg/flash"
+	"goblog/pkg/route"
+	"goblog/pkg/view"
 	"net/http"
 )
 
@@ -37,7 +37,7 @@ func (c *CategoryController) Store(w http.ResponseWriter, r *http.Request) {
 	} else {
 		view.Render(w, view.D{
 			"Category": _category,
-			"Errors": errors,
+			"Errors":   errors,
 		}, "categories.create")
 	}
 }
@@ -50,7 +50,7 @@ func (c *CategoryController) Show(w http.ResponseWriter, r *http.Request) {
 		c.ResponseForSQLError(w, err)
 	} else {
 		view.Render(w, view.D{
-			"Articles": articles,
+			"Articles":  articles,
 			"PagerData": pagerData,
 		}, "articles.index", "articles._article_meta")
 	}

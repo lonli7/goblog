@@ -1,12 +1,12 @@
 package bootstrap
 
 import (
-	"github.com/lonli7/goblog/app/models/article"
-	"github.com/lonli7/goblog/app/models/category"
-	"github.com/lonli7/goblog/app/models/user"
-	"github.com/lonli7/goblog/pkg/config"
-	"github.com/lonli7/goblog/pkg/logger"
-	"github.com/lonli7/goblog/pkg/model"
+	"goblog/app/models/article"
+	"goblog/app/models/category"
+	"goblog/app/models/user"
+	"goblog/pkg/config"
+	"goblog/pkg/logger"
+	"goblog/pkg/model"
 	"gorm.io/gorm"
 	"time"
 )

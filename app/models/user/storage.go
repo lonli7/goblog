@@ -1,9 +1,9 @@
 package user
 
 import (
-	"github.com/lonli7/goblog/pkg/logger"
-	"github.com/lonli7/goblog/pkg/model"
-	"github.com/lonli7/goblog/pkg/types"
+	"goblog/pkg/logger"
+	"goblog/pkg/model"
+	"goblog/pkg/types"
 )
 
 func (user *User) Create() (err error) {

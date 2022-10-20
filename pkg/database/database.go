@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 	"github.com/go-sql-driver/mysql"
-	"github.com/lonli7/goblog/pkg/logger"
+	"goblog/pkg/logger"
 	"time"
 )
 
@@ -40,7 +40,6 @@ func initDB() {
 	err = DB.Ping()
 	logger.LogError(err)
 }
-
 
 func createTables() {
 	createArticlesSQL := `CREATE TABLE IF NOT EXISTS articles(

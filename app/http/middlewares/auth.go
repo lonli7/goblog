@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"github.com/lonli7/goblog/pkg/auth"
+	"goblog/pkg/auth"
 	"net/http"
 )
 

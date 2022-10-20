@@ -1,12 +1,12 @@
 package view
 
 import (
-	"github.com/lonli7/goblog/app/models/category"
-	"github.com/lonli7/goblog/app/models/user"
-	"github.com/lonli7/goblog/pkg/auth"
-	"github.com/lonli7/goblog/pkg/flash"
-	"github.com/lonli7/goblog/pkg/logger"
-	"github.com/lonli7/goblog/pkg/route"
+	"goblog/app/models/category"
+	"goblog/app/models/user"
+	"goblog/pkg/auth"
+	"goblog/pkg/flash"
+	"goblog/pkg/logger"
+	"goblog/pkg/route"
 	"html/template"
 	"io"
 	"path/filepath"

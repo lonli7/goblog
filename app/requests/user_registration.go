@@ -1,9 +1,8 @@
-
 package requests
 
 import (
-	"github.com/lonli7/goblog/app/models/user"
 	"github.com/thedevsaddam/govalidator"
+	"goblog/app/models/user"
 )
 
 // ValidateRegistrationForm 验证表单，返回 errs 长度等于零即通过
