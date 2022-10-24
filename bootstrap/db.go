@@ -1,15 +1,21 @@
 package bootstrap
 
 import (
+	"embed"
 	"goblog/app/models/article"
 	"goblog/app/models/category"
 	"goblog/app/models/user"
 	"goblog/pkg/config"
 	"goblog/pkg/logger"
 	"goblog/pkg/model"
+	"goblog/pkg/view"
 	"gorm.io/gorm"
 	"time"
 )
+
+func SetupTemplate(tmplFS embed.FS) {
+	view.TplFS = tmplFS
+}
 
 func SetupDB() {
 	db := model.ConnectDB()
